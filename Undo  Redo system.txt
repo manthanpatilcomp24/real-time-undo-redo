@@ -1,0 +1,51 @@
+# Simple Undo / Redo system using stacks
+
+undo_stack = []   # Stores document states
+redo_stack = []   # Stores undone states
+
+def make_change(text):
+    undo_stack.append(text)
+    redo_stack.clear()  # clear redo when new change made
+    print("Change added.")
+
+def undo():
+    if undo_stack:
+        state = undo_stack.pop()
+        redo_stack.append(state)
+        print("Undo done.")
+    else:
+        print("Nothing to undo.")
+
+def redo():
+    if redo_stack:
+        state = redo_stack.pop()
+        undo_stack.append(state)
+        print("Redo done.")
+    else:
+        print("Nothing to redo.")
+
+def display():
+    if undo_stack:
+        print("Current document state:", undo_stack[-1])
+    else:
+        print("Document is empty.")
+
+# --- Main Menu ---
+while True:
+    print("\n1. Make Change\n2. Undo\n3. Redo\n4. Display\n5. Exit")
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        text = input("Enter new text: ")
+        make_change(text)
+    elif choice == '2':
+        undo()
+    elif choice == '3':
+        redo()
+    elif choice == '4':
+        display()
+    elif choice == '5':
+        print("Exiting...")
+        break
+    else:
+        print("Invalid choice, try again.")
